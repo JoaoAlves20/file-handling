@@ -1,7 +1,8 @@
-import { readFile } from 'fs'
+import { readFile, writeFile } from 'fs'
 import { promisify } from 'util'
 
 const readFileAsync = promisify(readFile)
+const writeFileAsync = promisify(writeFile)
 
 class Database {
     constructor() {
@@ -21,8 +22,23 @@ class Database {
 
         return filterData
     }
+
+    async writeDataFile(data) {
+        await writeFileAsync(this.FILE_NAME, JSON.stringify(data))
+        return true
+    }
+
+    async post(hero) {
+        const data = await this.getDataFile()
+        const id = hero.id <= 2 ? hero.id : Date.now()
+        const heroWithId = { id, ...hero }
+        const finalData = [...data, heroWithId]
+
+        const result = await this.writeDataFile(finalData)
+        return result
+    }
 }
 
-const newDatabase = new Database()
+const database = new Database()
 
-export default newDatabase
+export default database
