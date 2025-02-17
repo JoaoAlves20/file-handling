@@ -5,6 +5,9 @@
   "repository": "https://github.com/JoaoAlves20/file-handling.git",
   "author": "JoaoAlves20 <jvsimoesalves@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "mocha"
+  },
   "devDependencies": {
     "mocha": "^11.1.0"
   },

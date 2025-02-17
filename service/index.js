@@ -51,7 +51,7 @@ class Database {
         }
 
         data.splice(indice, 1)
-        return await this.post(data)
+        return await this.writeDataFile(data)
     }
 }
 
