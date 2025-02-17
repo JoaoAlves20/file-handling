@@ -53,6 +53,24 @@ class Database {
         data.splice(indice, 1)
         return await this.writeDataFile(data)
     }
+
+    async update(idHero, dataModification) {
+        const data = await this.getDataFile()
+        const indice = data.findIndex(item => item.id === parseInt(idHero))
+
+        if (indice === -1) {
+            throw new Error('Hero not found')
+        }
+
+        const actual = data[indice]
+        const updatedObj = {
+            ...actual,
+            ...dataModification
+        }
+        data.splice(indice, 1)
+        
+        return await this.writeDataFile([ ...data, updatedObj ])
+    }
 }
 
 const database = new Database()
