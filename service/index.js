@@ -14,10 +14,10 @@ class Database {
         return JSON.parse(file.toString())
     }
 
-    async list(id) {
+    async list(idHero) {
         const data = await this.getDataFile()
         const filterData = data.filter(item => (
-            id ? item.id === id : true
+            idHero ? item.id === idHero : true
         ))
 
         return filterData
@@ -36,6 +36,22 @@ class Database {
 
         const result = await this.writeDataFile(finalData)
         return result
+    }
+
+    async deleteHero(idHero) {
+        if (!idHero) {
+            return await this.post([])
+        }
+
+        const data = await this.getDataFile()
+        const indice = data.findIndex(item => item.id === parseInt(idHero))
+
+        if (indice === -1) {
+            throw new Error('Hero not found')
+        }
+
+        data.splice(indice, 1)
+        return await this.post(data)
     }
 }
 

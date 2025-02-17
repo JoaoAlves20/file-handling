@@ -27,4 +27,11 @@ describe('File Handling Switch', function() {
 
         deepEqual(actual, expected)
     })
+
+    it('Must remove a hero by id', async () => {
+        const expected = true
+        const result = await database.deleteHero(DEFAULT_ITEM_HERO.id)
+
+        deepEqual(result, expected)
+    })
 })
