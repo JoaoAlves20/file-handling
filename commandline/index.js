@@ -9,10 +9,11 @@ async function main() {
         .version('v1')
         .option('-n, --name [value]', 'Hero name')
         .option('-p, --power [value]', 'Hero power')
+        .option('-i, --id [value]', 'Hero id')
 
         .option('-h, --posthero', 'Add a hero')
         .option('-l, --list', 'List all heroes or one hero')
-        .option('-d, --deletehero [value]', 'Delete hero')
+        .option('-d, --deletehero', 'Delete hero')
         .parse(process.argv)
     
     try {
@@ -39,7 +40,13 @@ async function main() {
         }
 
         if (commander.getOptionValue('deletehero')) {
-            await database.deleteHero(commander.getOptionValue('deletehero'))
+            if (!commander.getOptionValue('id')) {
+                await database.deleteHero()
+                console.log('deleted hero')
+                return
+            }
+
+            await database.deleteHero(commander.getOptionValue('id'))
             console.log('deleted hero')
         }
     } catch (e) {

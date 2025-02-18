@@ -29,6 +29,11 @@ class Database {
     }
 
     async post(hero) {
+        if (!hero) {
+            const result = await this.writeDataFile([])
+            return result
+        }
+        
         const data = await this.getDataFile()
         const id = hero.id <= 2 ? hero.id : Date.now()
         const heroWithId = { id, ...hero }
@@ -40,7 +45,7 @@ class Database {
 
     async deleteHero(idHero) {
         if (!idHero) {
-            return await this.post([])
+            return await this.post()
         }
 
         const data = await this.getDataFile()
