@@ -11,5 +11,8 @@
   "devDependencies": {
     "mocha": "^11.1.0"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "commander": "^13.1.0"
+  }
 }
