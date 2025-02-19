@@ -35,7 +35,7 @@ class Database {
         }
         
         const data = await this.getDataFile()
-        const id = hero.id <= 2 ? hero.id : Date.now()
+        const id = hero.id <= 2 ? hero.id : Math.floor(Math.random() * 100)
         const heroWithId = { id, ...hero }
         const finalData = [...data, heroWithId]
 
@@ -59,7 +59,7 @@ class Database {
         return await this.writeDataFile(data)
     }
 
-    async update(idHero, dataModification) {
+    async update(idHero, modifiedData) {
         const data = await this.getDataFile()
         const indice = data.findIndex(item => item.id === parseInt(idHero))
 
@@ -70,7 +70,7 @@ class Database {
         const actual = data[indice]
         const updatedObj = {
             ...actual,
-            ...dataModification
+            ...modifiedData
         }
         data.splice(indice, 1)
         
