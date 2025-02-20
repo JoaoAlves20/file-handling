@@ -84,6 +84,4 @@ class Database {
 
 const database = new Database()
 
-database.update(78, { name: 'Superman', power: 'Power' })
-
 export default database
