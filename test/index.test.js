@@ -1,6 +1,6 @@
 import { deepEqual, ok } from 'assert'
 
-import database from '../service/index.js'
+import database from '../database/index.js'
 
 const DEFAULT_ITEM_HERO = {
     id: 1,

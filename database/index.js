@@ -14,6 +14,13 @@ class Database {
         return JSON.parse(file.toString())
     }
 
+    async findById(idHero) {
+        const data = await this.getDataFile()
+        const findId = data.find(item => item.id === idHero)
+
+        return findId
+    }
+
     async list(idHero) {
         const data = await this.getDataFile()
         const filterData = data.filter(item => (
@@ -35,8 +42,8 @@ class Database {
         }
         
         const data = await this.getDataFile()
-        const id = hero.id <= 2 ? hero.id : Math.floor(Math.random() * 100)
-        const heroWithId = { id, ...hero }
+        const id = hero.id ? hero.id : Math.floor(Math.random() * 100)
+        const heroWithId = { ...hero, id }
         const finalData = [...data, heroWithId]
 
         const result = await this.writeDataFile(finalData)
@@ -49,35 +56,34 @@ class Database {
         }
 
         const data = await this.getDataFile()
-        const indice = data.findIndex(item => item.id === parseInt(idHero))
+        const findId = await this.findById(idHero)
 
-        if (indice === -1) {
+        if (!findId) {
             throw new Error('Hero not found')
         }
 
-        data.splice(indice, 1)
-        return await this.writeDataFile(data)
+        const newData = data.filter(item => item.id !== idHero)
+        return await this.writeDataFile(newData)
     }
 
     async update(idHero, modifiedData) {
         const data = await this.getDataFile()
-        const indice = data.findIndex(item => item.id === parseInt(idHero))
+        const findId = await this.findById(idHero)
 
-        if (indice === -1) {
-            throw new Error('Hero not found')
+        if (!findId) {
+            throw new Error({ error: 'Hero not found' })
         }
 
-        const actual = data[indice]
-        const updatedObj = {
-            ...actual,
-            ...modifiedData
-        }
-        data.splice(indice, 1)
+        const newData = data.map(item => (
+            item.id === idHero ? { ...item, ...modifiedData } : item
+        ))
         
-        return await this.writeDataFile([ ...data, updatedObj ])
+        return await this.writeDataFile(newData)
     }
 }
 
 const database = new Database()
+
+database.update(78, { name: 'Superman', power: 'Power' })
 
 export default database
